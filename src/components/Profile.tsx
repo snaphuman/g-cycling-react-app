@@ -1,10 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-
-enum StravaApi {
-    ApiUrl = 'https://www.strava.com/api/v3',
-    BearerToken = '7b41a39951cddcdc4e4e38485bf1fe2560293bd0',
-}
+import { StravaApi } from "../enums/StravaApi";
 
 const Profile: React.FC = () => {
 
@@ -18,7 +14,6 @@ const Profile: React.FC = () => {
                         Authorization: `Bearer ${StravaApi.BearerToken}`,
                     }
                 })
-
                 setProfile(response.data);
 
             } catch (error) {

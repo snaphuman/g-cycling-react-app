@@ -1,4 +1,5 @@
 import './App.css';
+import LeaderBoard from './components/LeaderBoard';
 import Profile from './components/Profile';
 
 function App() {
@@ -13,9 +14,7 @@ function App() {
         <Profile />
       </div>
       <div className="column">
-        <h2>
-          Other Data
-        </h2>
+        <LeaderBoard />
       </div>
       <footer>
         Footer

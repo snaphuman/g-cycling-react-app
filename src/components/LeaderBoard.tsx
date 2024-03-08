@@ -2,8 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from 'react';
 import { StravaApi } from "../enums/StravaApi";
 
-const StravaApiV3 = require('strava_api_v3');
-const defaultClient = StravaApiV3.ApiClient.instance;
 
 const LeaderBoard: React.FC = () => {
 
@@ -11,7 +9,6 @@ const LeaderBoard: React.FC = () => {
 
     useEffect(() => {
 
-        console.log('default', defaultClient);
 
         const fetchLeaders = async () => {
             try {

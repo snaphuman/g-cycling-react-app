@@ -1,6 +1,7 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import LeaderBoard from './components/LeaderBoard';
-import Profile from './components/Profile';
+import StravaCallback from './components/Strava/StravaCallback';
+import StravaAuthButton from './components/Strava/StravaAuthButton';
 
 function App() {
   return (
@@ -11,10 +12,12 @@ function App() {
         </h1>
       </header>
       <div className="column">
-        <Profile />
-      </div>
-      <div className="column">
-        <LeaderBoard />
+        <Router>
+          <Routes>
+            <Route path='/' element={<StravaAuthButton />} />
+            <Route path='/callback' element={<StravaCallback />} />
+          </Routes>
+        </Router>
       </div>
       <footer>
         Footer

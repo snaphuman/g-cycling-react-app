@@ -12,9 +12,9 @@ const LeaderBoard: React.FC = () => {
 
         const fetchLeaders = async () => {
             try {
-                const response = await axios.get(`${StravaApi.ApiUrl}/clubs/${StravaApi.ClubId}/activities`, {
+                const response = await axios.get(`${StravaApi.API_URL}/clubs/${StravaApi.CLUB_ID}/activities`, {
                     headers: {
-                        Authorization: `Bearer ${StravaApi.BearerToken}`,
+                        Authorization: `Bearer ${StravaApi.BEARER_TOKEN}`,
                     }
                 })
 

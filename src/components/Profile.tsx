@@ -9,9 +9,9 @@ const Profile: React.FC = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get(`${StravaApi.ApiUrl}/athlete`, {
+                const response = await axios.get(`${StravaApi.API_URL}/athlete`, {
                     headers: {
-                        Authorization: `Bearer ${StravaApi.BearerToken}`,
+                        Authorization: `Bearer ${StravaApi.BEARER_TOKEN}`,
                     }
                 })
                 setProfile(response.data);

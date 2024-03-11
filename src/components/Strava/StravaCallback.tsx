@@ -1,6 +1,6 @@
 import axios from "axios"
 import { type AuthDataType } from "./StravaAuthButton"
-import { useSearchParams } from "react-router-dom"
+import { useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useStravaContext } from "../../store/StravaContext";
 
@@ -8,6 +8,7 @@ import { useStravaContext } from "../../store/StravaContext";
 const StravaCallback: React.FC = () => {
 
     const stravaCtx = useStravaContext();
+    const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
     const code = searchParams.get('code');
@@ -36,8 +37,10 @@ const StravaCallback: React.FC = () => {
 
             const accessToken = response.data.access_token;
 
-            stravaCtx.setToken(accessToken)
-
+            if(accessToken) {
+                stravaCtx.setToken(accessToken);
+                navigate('/')
+            }
         } catch (error) {
 
             console.error('Error exchanging token', error);

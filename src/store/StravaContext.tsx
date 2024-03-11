@@ -8,31 +8,30 @@ type StravaState = {
 
 type StravaContextValue = StravaState & {
     setToken: (token: string) => void;
+    removeToken: () => void;
 }
 
 type StravaContextProviderProps = {
     children: ReactNode;
 }
 
-const StravaContext = createContext<StravaContextValue | null>(null);
-
-const initialState: StravaState = {
-    isLoggedIn: undefined,
-    isAdmin: undefined,
-    token: undefined,
-}
-
 type SetTokenAction = {
+    payload?: Partial<StravaState> 
     type: 'SET_TOKEN',
 }
 
-type Action = {
-    payload?: Partial<StravaState> 
-    
-} & SetTokenAction;
+type RemoveTokenAction = {
+    type: 'REMOVE_TOKEN',
+}
 
+type Action = SetTokenAction | RemoveTokenAction;
 
-
+const StravaContext = createContext<StravaContextValue | null>(null);
+const initialState: StravaState = {
+    isLoggedIn: false,
+    isAdmin: false,
+    token: undefined,
+}
 
 export function useStravaContext() {
     const stravaCtx = useContext(StravaContext)
@@ -47,17 +46,22 @@ export function useStravaContext() {
 function stravaReducer(state: StravaState, action: Action) {
 
     if (action.type === 'SET_TOKEN') {
-        const newState =  {
+        return {
             ...state,
             isLoggedIn: true,
             token: action.payload?.token,
         }
-
-        return newState
+    }
+    if (action.type === 'REMOVE_TOKEN') {
+        return {
+            ...state,
+            isLoggedIn: false,
+            isAdmin: false,
+            token: undefined,
+        }
     }
 
     return state;
-
 };
 
 const StravaContextProvider = ({children}: StravaContextProviderProps) => {
@@ -69,8 +73,11 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         isLoggedIn: stravaState.isLoggedIn,
         token: stravaState.token,
         setToken: (token) => {
-            dispatch({type: 'SET_TOKEN', payload: {token: token}}) 
-        } 
+            dispatch({type: 'SET_TOKEN', payload: {token}}) 
+        },
+        removeToken: () => {
+            dispatch({type: 'REMOVE_TOKEN'})
+        }
     }
 
     return <StravaContext.Provider value={ctx}>{children}</StravaContext.Provider>

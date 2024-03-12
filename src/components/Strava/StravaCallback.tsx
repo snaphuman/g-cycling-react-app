@@ -47,10 +47,14 @@ const StravaCallback: React.FC = () => {
         }
     }
 
+    const back = () => {
+        navigate('/');
+    }
+
     return (
         <div>
             <h1>Strava Callback</h1>
-            { code ? <p>Exchanging code {stravaCtx.token}</p> : <p>No authorization code provided</p> }
+            { code ? <p>Exchanging code {stravaCtx.token}</p> : <p>No authorization code provided. <a href="javascript:void(0)" onClick={back}>Go Back</a></p> }
         </div>
     )
 }

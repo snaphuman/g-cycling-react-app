@@ -1,16 +1,41 @@
 .grid-container {
-  background-color: #282c34;
-  color: white;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas:
+    "header header header"
+    "mainNav mainNav mainNav"
+    "sidebar content content"
+    "footer footer footer";
+  gap: 10px;
 }
 
-header, footer {
-  grid-column: 1 / span 2;
+.header {
+  grid-area: header;
+  padding: 20px;
+  background-color: #8ca0ff;
 }
 
-.column {
-  align-self: start;
+.mainNav {
+  grid-area: mainNav;
+  padding: 20px;
+  background-color: #ffa08c;
+}
+
+.sidebar {
+  grid-area: sidebar;
+  padding: 20px;
+  background-color: #ffa08c;
+}
+
+.content {
+  grid-area: content;
+  padding: 20px;
+  background-color: #8cffa0;
+}
+
+.footer {
+  grid-area: footer;
+  padding: 20px;
+  background-color: #8c8cff;
 }

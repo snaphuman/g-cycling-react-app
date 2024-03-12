@@ -1,9 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { StravaApi } from "../enums/StravaApi";
+import { useStravaContext } from "../store/StravaContext";
 
 const Profile: React.FC = () => {
 
+    const stravaCtx = useStravaContext();
     const [profile, setProfile] = useState<any>();
 
     useEffect(() => {

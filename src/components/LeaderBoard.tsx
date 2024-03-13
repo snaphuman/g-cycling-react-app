@@ -1,20 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from 'react';
 import { StravaApi } from "../enums/StravaApi";
+import { useStravaContext } from "../store/StravaContext";
 
 
 const LeaderBoard: React.FC = () => {
 
+    const { token } = useStravaContext();
     const [leaders, setLeaders] = useState<any>([]);
 
     useEffect(() => {
 
 
-        const fetchLeaders = async () => {
+        const fetchActivities = async () => {
             try {
                 const response = await axios.get(`${StravaApi.API_URL}/clubs/${StravaApi.CLUB_ID}/activities`, {
                     headers: {
-                        Authorization: `Bearer ${StravaApi.BEARER_TOKEN}`,
+                        Authorization: `Bearer ${ token }`,
                     }
                 })
 
@@ -23,7 +25,7 @@ const LeaderBoard: React.FC = () => {
             }
         }
 
-        fetchLeaders()
+        fetchActivities()
     });
 
 

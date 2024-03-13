@@ -22,15 +22,13 @@ function App() {
           <MainNavigation className='mainNav' />
             <aside className='sidebar'>
               Sidebar
-
             </aside>
             <section className='content'>
-            HI!
-            <Routes>
-              <Route path='/' element={<ElementGuard><Profile /></ElementGuard>}>Profile</Route>
-              <Route path='/leaders-board' element={<ElementGuard><LeaderBoard /></ElementGuard>}>LeaderBoard</Route>
-              <Route path='/callback' element={<StravaCallback />} />
-            </Routes>
+              <Routes>
+                <Route path='/' element={<ElementGuard><Profile /></ElementGuard>}>Profile</Route>
+                <Route path='/leaders-board' element={<ElementGuard><LeaderBoard /></ElementGuard>}>LeaderBoard</Route>
+                <Route path='/callback' element={<StravaCallback />} />
+              </Routes>
             </section>
             </BrowserRouter>
             

@@ -9,7 +9,7 @@ export type AuthDataType = {
     clientSecret?: string,
     redirectUri?: string,
     responseType?: 'code',
-    scope?: 'read,read_all',
+    scope?: 'read,read_all,profile:read_all,activity:read,activity:read_all,activity:write',
 }
 
 const StravaAuthButton: React.FC = () => {
@@ -21,11 +21,11 @@ const StravaAuthButton: React.FC = () => {
         clientId: process.env.REACT_APP_STRAVA_CLIENT_ID,
         redirectUri: encodeURIComponent(process.env.REACT_APP_STRAVA_REDIRECT_URI || ''),
         responseType: 'code',
-        scope: 'read,read_all',
+        scope: 'read,read_all,profile:read_all,activity:read,activity:read_all,activity:write',
     }
     console.log('auth data', authData)
 
-    const authLink = `${authData.authUrl}?client_id=${authData.clientId}&redirect_uri=${authData.redirectUri}&response_type=${authData.responseType}&scope=${authData.scope}&approval_prompt=auto`;
+    const authLink = `${authData.authUrl}?client_id=${authData.clientId}&redirect_uri=${authData.redirectUri}&response_type=${authData.responseType}&scope=${authData.scope}&approval_prompt=auto&state=test`;
 
     const disconnect = async () => {
 

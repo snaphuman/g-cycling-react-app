@@ -14,7 +14,7 @@ export type AuthDataType = {
 
 const StravaAuthButton: React.FC = () => {
 
-    const stravaCtx = useStravaContext();
+    const { token, removeToken, isLoggedIn } = useStravaContext();
 
     const authData: AuthDataType = {
         authUrl: StravaApi.AUTH_URL,
@@ -31,16 +31,16 @@ const StravaAuthButton: React.FC = () => {
 
         const endpoint = `${StravaApi.API_URL}/oauth/deauthorize`;
         const response = await axios.post(endpoint, {
-            access_token: stravaCtx.token,
+            access_token: token,
         });  
 
-        console.info('ok:', response)
-        stravaCtx.removeToken();
+        console.info('disconnected ok:', response)
+        removeToken();
     }
 
     return (
         <>
-        { stravaCtx.isLoggedIn ? 
+        { isLoggedIn ? 
             <button onClick={disconnect}>
                 Disconnect
             </button> : 

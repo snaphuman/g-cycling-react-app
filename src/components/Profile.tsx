@@ -13,7 +13,7 @@ const Profile: React.FC = () => {
             try {
                 const response = await axios.get(`${StravaApi.API_URL}/athlete`, {
                     headers: {
-                        Authorization: `Bearer ${StravaApi.BEARER_TOKEN}`,
+                        Authorization: `Bearer ${stravaCtx.token}`,
                     }
                 })
                 setProfile(response.data);

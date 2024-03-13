@@ -3,11 +3,12 @@ import { type AuthDataType } from "./StravaAuthButton"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useStravaContext } from "../../store/StravaContext";
+import Athlete from "../../models/Athlete";
 
 
 const StravaCallback: React.FC = () => {
 
-    const stravaCtx = useStravaContext();
+    const { token, setToken, setAthlete } = useStravaContext();
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
@@ -20,7 +21,7 @@ const StravaCallback: React.FC = () => {
     }
 
     useEffect(() => {
-        if (code && !stravaCtx.token) {
+        if (code && !token) {
             exchangeToken(code, authData)
         }
     }, [code]);
@@ -35,10 +36,11 @@ const StravaCallback: React.FC = () => {
                 grant_type: 'authorization_code',
             });
 
-            const accessToken = response.data.access_token;
+            const { access_token: accessToken, athlete }: { access_token: string, athlete: Athlete } = response.data;
 
             if(accessToken) {
-                stravaCtx.setToken(accessToken);
+                setToken(accessToken);
+                setAthlete(athlete);
                 navigate('/')
             }
         } catch (error) {
@@ -54,7 +56,7 @@ const StravaCallback: React.FC = () => {
     return (
         <div>
             <h1>Strava Callback</h1>
-            { code ? <p>Exchanging code {stravaCtx.token}</p> : <p>No authorization code provided. <a href="javascript:void(0)" onClick={back}>Go Back</a></p> }
+            { code ? <p>Exchanging code {token}</p> : <p>No authorization code provided. <a href="javascript:void(0)" onClick={back}>Go Back</a></p> }
         </div>
     )
 }

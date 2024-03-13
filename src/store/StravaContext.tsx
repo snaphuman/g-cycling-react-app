@@ -1,14 +1,17 @@
 import  { type ReactNode, createContext, useContext, useReducer} from 'react';
+import Athlete from '../models/Athlete';
 
 type StravaState = {
     isLoggedIn?: boolean;
     isAdmin?: boolean;
     token?: string;
+    loggedInAthlete?: Athlete;
 }
 
 type StravaContextValue = StravaState & {
     setToken: (token: string) => void;
     removeToken: () => void;
+    setAthlete: (athlete: Athlete) => void;
 }
 
 type StravaContextProviderProps = {
@@ -24,13 +27,20 @@ type RemoveTokenAction = {
     type: 'REMOVE_TOKEN',
 }
 
-type Action = SetTokenAction | RemoveTokenAction;
+type SetAthleteAction = {
+    payload?: Partial<StravaState> 
+    type: 'SET_ATHLETE',
+}
+
+
+type Action = SetTokenAction | RemoveTokenAction | SetAthleteAction;
 
 const StravaContext = createContext<StravaContextValue | null>(null);
 const initialState: StravaState = {
     isLoggedIn: false,
     isAdmin: false,
     token: undefined,
+    loggedInAthlete: new Athlete(), 
 }
 
 export function useStravaContext() {
@@ -60,6 +70,12 @@ function stravaReducer(state: StravaState, action: Action) {
             token: undefined,
         }
     }
+    if (action.type === 'SET_ATHLETE') {
+        return {
+            ...state,
+            loggedInAthlete: action.payload?.loggedInAthlete,
+        }
+    }
 
     return state;
 };
@@ -72,11 +88,15 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         isAdmin: stravaState.isAdmin,
         isLoggedIn: stravaState.isLoggedIn,
         token: stravaState.token,
+        loggedInAthlete: stravaState.loggedInAthlete,
         setToken: (token) => {
             dispatch({type: 'SET_TOKEN', payload: {token}}) 
         },
         removeToken: () => {
             dispatch({type: 'REMOVE_TOKEN'})
+        },
+        setAthlete: (athlete) => {
+            dispatch({type: 'SET_ATHLETE', payload: {loggedInAthlete: athlete}})
         }
     }
 

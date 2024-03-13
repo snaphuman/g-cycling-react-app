@@ -1,31 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { StravaApi } from "../enums/StravaApi";
 import { useStravaContext } from "../store/StravaContext";
 
 const Profile: React.FC = () => {
 
-    const stravaCtx = useStravaContext();
-    const [profile, setProfile] = useState<any>();
-
-    useEffect(() => {
-        const fetchProfile = async () => {
-            try {
-                const response = await axios.get(`${StravaApi.API_URL}/athlete`, {
-                    headers: {
-                        Authorization: `Bearer ${stravaCtx.token}`,
-                    }
-                })
-                setProfile(response.data);
-
-            } catch (error) {
-                console.error('error fetching profile', error)
-            };
-        }
-
-        fetchProfile();
-
-    }, []);
+    const { loggedInAthlete: profile } = useStravaContext();
 
     if (!profile) {
         return <div>Loading Profile...</div>
@@ -33,16 +10,12 @@ const Profile: React.FC = () => {
 
     return (
         <>
-            <h2>Profile:</h2>
+          <h2>Profile:</h2>
+         { Object.entries(profile).map(([key, value]) => ( 
             <div>
-                <strong>Name: </strong> {profile.firstname} {profile.lastname}
+                <strong>{key}: </strong> { value }
             </div>
-            <div>
-                <strong>Username: </strong> {profile.username}
-            </div>
-            <div>
-                <strong>City: </strong> {profile.city}
-            </div>
+         ))}
         </>
     )
 }

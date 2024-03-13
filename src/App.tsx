@@ -11,7 +11,6 @@ import MainNavigation from './components/MainNavigation';
 function App() {
   return (
     <StravaContextProvider>
-      <BrowserRouter>
         <div className="grid-container">
           <header className='header'>
             <h1>
@@ -19,24 +18,26 @@ function App() {
             </h1>
             <StravaAuthButton />
           </header>
+          <BrowserRouter>
           <MainNavigation className='mainNav' />
-          <aside className='sidebar'>
-            Sidebar
+            <aside className='sidebar'>
+              Sidebar
 
-          </aside>
-          <section className='content'>
+            </aside>
+            <section className='content'>
             HI!
-          </section>
-          <footer className='footer'>
-            Footer
-          </footer>
+            <Routes>
+              <Route path='/' element={<ElementGuard><Profile /></ElementGuard>}>Profile</Route>
+              <Route path='/leaders-board' element={<ElementGuard><LeaderBoard /></ElementGuard>}>LeaderBoard</Route>
+              <Route path='/callback' element={<StravaCallback />} />
+            </Routes>
+            </section>
+            </BrowserRouter>
+            
+            <footer className='footer'>
+              Footer
+            </footer>
         </div>
-        <Routes>
-          <Route path='/' element={<ElementGuard><Profile /></ElementGuard>}>Profile</Route>
-          <Route path='/leaders-board' element={<ElementGuard><LeaderBoard /></ElementGuard>}>LeaderBoard</Route>
-          <Route path='/callback' element={<StravaCallback />} />
-        </Routes>
-      </BrowserRouter>
     </StravaContextProvider>
   );
 }

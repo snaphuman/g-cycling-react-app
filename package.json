@@ -10,6 +10,7 @@
     "@types/node": "^16.18.83",
     "@types/react": "^18.2.59",
     "@types/react-dom": "^18.2.19",
+    "ag-grid-react": "^31.1.1",
     "axios": "^1.6.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

@@ -1,5 +1,5 @@
 import  { type ReactNode, createContext, useContext, useReducer} from 'react';
-import Athlete from '../models/Athlete';
+import { Athlete } from '../models/StravaModels';
 
 type StravaState = {
     isLoggedIn?: boolean;

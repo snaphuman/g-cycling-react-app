@@ -3,7 +3,7 @@ import { type AuthDataType } from "./StravaAuthButton"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import { useEffect } from "react";
 import { useStravaContext } from "../../store/StravaContext";
-import Athlete from "../../models/Athlete";
+import { Athlete } from "../../models/StravaModels";
 
 
 const StravaCallback: React.FC = () => {

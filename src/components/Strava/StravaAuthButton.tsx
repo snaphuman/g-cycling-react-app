@@ -38,18 +38,8 @@ const StravaAuthButton: React.FC = () => {
         removeToken();
     }
 
-    return (
-        <>
-        { isLoggedIn ? 
-            <button onClick={disconnect}>
-                Disconnect
-            </button> : 
-            <a href={authLink}>
-                Connect with Strava
-            </a>
-        }
-        </>
-    );
+    return isLoggedIn ? <button onClick={disconnect}>Disconnect</button> 
+                      : <a href={authLink}>Connect with Strava</a>
 } 
 
 export default StravaAuthButton;

@@ -9,11 +9,9 @@ import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the 
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 import { ColDef } from 'ag-grid-community';
 
-
 const LeaderBoard: React.FC = () => {
 
-    const { token } = useStravaContext();
-    const [activities, setActivities] = useState<ClubActivity[]>([]);
+    const { token, setClubActivities: setActivities, clubActivities: activities } = useStravaContext();
     const [colDefs, setColDefs] = useState<ColDef[]>([
         { field: 'athlete.firstname' },
         { field: 'athlete.lastname' },
@@ -27,26 +25,25 @@ const LeaderBoard: React.FC = () => {
     ])
 
     useEffect(() => {
-
-
-        const fetchActivities = async () => {
-            try {
-                const response = await axios.get<ClubActivity[]>(`${StravaApi.API_URL}/clubs/${StravaApi.CLUB_ID}/activities`, {
-                    headers: {
-                        Authorization: `Bearer ${ token }`,
-                    }
-                })
-
-                setActivities(response.data);
-
-            } catch (error) {
-
-            }
+        if (!activities) {
+            fetchActivities();
         }
-
-        fetchActivities();
     });
 
+    const fetchActivities = async () => {
+        try {
+            const response = await axios.get<ClubActivity[]>(`${StravaApi.API_URL}/clubs/${StravaApi.CLUB_ID}/activities`, {
+                headers: {
+                    Authorization: `Bearer ${ token }`,
+                }
+            })
+
+            setActivities(response.data);
+
+        } catch (error) {
+
+        }
+    }
 
     return (
         <>

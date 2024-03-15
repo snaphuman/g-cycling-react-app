@@ -1,17 +1,19 @@
 import  { type ReactNode, createContext, useContext, useReducer} from 'react';
-import { Athlete } from '../models/StravaModels';
+import { Athlete, ClubActivity } from '../models/StravaModels';
 
 type StravaState = {
     isLoggedIn?: boolean;
     isAdmin?: boolean;
     token?: string;
     loggedInAthlete?: Athlete;
+    clubActivities?: ClubActivity[];
 }
 
 type StravaContextValue = StravaState & {
     setToken: (token: string) => void;
     removeToken: () => void;
     setAthlete: (athlete: Athlete) => void;
+    setClubActivities: (activities: ClubActivity[]) => void;
 }
 
 type StravaContextProviderProps = {
@@ -28,12 +30,17 @@ type RemoveTokenAction = {
 }
 
 type SetAthleteAction = {
-    payload?: Partial<StravaState> 
+    payload?: Partial<StravaState>,
     type: 'SET_ATHLETE',
 }
 
+type SetClubActivitiesAction = {
+    payload?: Partial<StravaState>,
+    type: 'SET_ACTIVITIES',
+}
 
-type Action = SetTokenAction | RemoveTokenAction | SetAthleteAction;
+
+type Action = SetTokenAction | RemoveTokenAction | SetAthleteAction | SetClubActivitiesAction;
 
 const StravaContext = createContext<StravaContextValue | null>(null);
 const initialState: StravaState = {
@@ -41,6 +48,7 @@ const initialState: StravaState = {
     isAdmin: false,
     token: undefined,
     loggedInAthlete: new Athlete(), 
+    clubActivities: undefined,
 }
 
 export function useStravaContext() {
@@ -55,26 +63,30 @@ export function useStravaContext() {
 
 function stravaReducer(state: StravaState, action: Action) {
 
-    if (action.type === 'SET_TOKEN') {
-        return {
-            ...state,
-            isLoggedIn: true,
-            token: action.payload?.token,
-        }
-    }
-    if (action.type === 'REMOVE_TOKEN') {
-        return {
-            ...state,
-            isLoggedIn: false,
-            isAdmin: false,
-            token: undefined,
-        }
-    }
-    if (action.type === 'SET_ATHLETE') {
-        return {
-            ...state,
-            loggedInAthlete: action.payload?.loggedInAthlete,
-        }
+    switch (action.type) {
+        case 'SET_TOKEN':
+            return {
+                ...state,
+                isLoggedIn: true,
+                token: action.payload?.token,
+            }
+        case 'REMOVE_TOKEN':
+            return {
+                ...state,
+                isLoggedIn: false,
+                isAdmin: false,
+                token: undefined,
+            }
+        case 'SET_ATHLETE':
+            return {
+                ...state,
+                loggedInAthlete: action.payload?.loggedInAthlete,
+            }
+        case 'SET_ACTIVITIES':
+            return {
+                ...state,
+                clubActivities: action.payload?.clubActivities 
+            }
     }
 
     return state;
@@ -89,6 +101,7 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         isLoggedIn: stravaState.isLoggedIn,
         token: stravaState.token,
         loggedInAthlete: stravaState.loggedInAthlete,
+        clubActivities: stravaState.clubActivities,
         setToken: (token) => {
             dispatch({type: 'SET_TOKEN', payload: {token}}) 
         },
@@ -97,6 +110,9 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         },
         setAthlete: (athlete) => {
             dispatch({type: 'SET_ATHLETE', payload: {loggedInAthlete: athlete}})
+        },
+        setClubActivities: (activities) => {
+            dispatch({type: 'SET_ACTIVITIES', payload: { clubActivities: activities}})
         }
     }
 

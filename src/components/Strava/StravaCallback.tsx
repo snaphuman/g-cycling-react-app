@@ -41,7 +41,7 @@ const StravaCallback: React.FC = () => {
             if(accessToken) {
                 setToken(accessToken);
                 setAthlete(athlete);
-                navigate('/')
+                navigate('/');
             }
         } catch (error) {
 

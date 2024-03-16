@@ -8,9 +8,11 @@ import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 import { ColDef } from 'ag-grid-community';
+import { useLayoutContext } from "../store/LayoutContext";
 
 const LeaderBoard: React.FC = () => {
 
+    const { setLayoutState } = useLayoutContext();
     const { token, setClubActivities: setActivities, clubActivities: activities } = useStravaContext();
     const [colDefs, setColDefs] = useState<ColDef[]>([
         { field: 'athlete.firstname' },
@@ -25,10 +27,15 @@ const LeaderBoard: React.FC = () => {
     ])
 
     useEffect(() => {
+        setLayoutState({
+            isFrontPage: false,
+            showSidebar: true,
+        });
+
         if (!activities) {
             fetchActivities();
-        }
-    });
+        };
+    }, []);
 
     const fetchActivities = async () => {
         try {

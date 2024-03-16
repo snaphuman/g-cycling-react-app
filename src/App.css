@@ -1,13 +1,21 @@
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   grid-template-rows: auto;
+  grid-template-areas:
+    "header"
+    "mainNav"
+    "content"
+    "footer";
+}
+
+.grid-container.sidebar-on {
+  grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
     "header header header"
     "mainNav mainNav mainNav"
     "sidebar content content"
     "footer footer footer";
-  gap: 10px;
 }
 
 .header {

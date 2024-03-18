@@ -1,30 +1,17 @@
+import { useState } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import './App.css';
 import StravaCallback from './components/Strava/StravaCallback';
 import StravaAuthButton from './components/Strava/StravaAuthButton';
-import StravaContextProvider, { useStravaContext } from './store/StravaContext';
+import StravaContextProvider from './store/StravaContext';
 import ElementGuard from './components/Helpers/ElementGuard';
 import Profile from './components/Profile';
 import LeaderBoard from './components/LeaderBoard';
 import MainNavigation from './components/MainNavigation';
-import { useState, useEffect } from 'react';
-import LayoutContextProvider, { useLayoutContext } from './store/LayoutContext';
+import LayoutContextProvider from './store/LayoutContext';
 import Layout from './components/Layout';
-
-function valuetext(value: number) {
-  return `${value}ºC`;
-}
+import './App.css';
 
 function App() {
-  const [value, setValue] = useState([20, 30])
-
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    console.log('ev', event)
-    console.log('nv', newValue);
-
-    setValue(newValue as number[]);
-  }
-
   return (
     <StravaContextProvider>
         <StravaAuthButton />

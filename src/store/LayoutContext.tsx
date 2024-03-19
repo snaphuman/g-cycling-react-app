@@ -1,12 +1,16 @@
-import  { type ReactNode, createContext, useContext, useReducer, useState} from 'react';
+import { type ReactNode, createContext, useContext, useReducer} from 'react';
+import { ClubActivity } from '../models/StravaModels';
 
 export type LayoutState = {
     showSidebar: boolean;
     isFrontPage: boolean;
+    activitiesGridApi?: any;
 }
 
 type LayoutContextValue = LayoutState & {
-    setLayoutState: (config: LayoutState) => void
+    setLayoutState: (config: Partial<LayoutState>) => void;
+    setActivitiesGridApi: (config: Partial<LayoutState>) => void;
+    updateGridData: (data: ClubActivity[]) => void;
 }
 
 type LayoutContextProviderProps = {
@@ -17,6 +21,7 @@ const LayoutContext = createContext<LayoutContextValue | null>(null);
 const initialState: LayoutState = {
     showSidebar: false,
     isFrontPage: true,
+    activitiesGridApi: undefined
 }
 
 export function useLayoutContext() {
@@ -29,19 +34,27 @@ export function useLayoutContext() {
     return layoutCtx;
 }
 
-const layoutStateReducer = (state: LayoutState, data: LayoutState) => {
-
+const layoutStateReducer = (state: LayoutState, data: Partial<LayoutState>) => {
     return {...state, ...data}
 }
 
 const LayoutContextProvider = ({children}: LayoutContextProviderProps) => {
 
     const [layoutState, dispatch] = useReducer(layoutStateReducer, initialState);
-
     const ctx: LayoutContextValue = {
         isFrontPage: layoutState.isFrontPage,
         showSidebar: layoutState.showSidebar,
+        activitiesGridApi: layoutState.activitiesGridApi,
         setLayoutState: (config) => {
+            dispatch(config)
+        },
+        updateGridData: (data) => {
+            const gridApi = layoutState.activitiesGridApi;
+            if (gridApi) {
+                gridApi.updateGridOptions({'rowData': data});
+            }
+        },
+        setActivitiesGridApi: (config) => {
             dispatch(config)
         },
     }

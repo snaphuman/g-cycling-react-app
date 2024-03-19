@@ -12,7 +12,7 @@ import { useLayoutContext } from "../store/LayoutContext";
 
 const LeaderBoard: React.FC = () => {
 
-    const { setLayoutState } = useLayoutContext();
+    const { setLayoutState, updateGridData, setActivitiesGridApi } = useLayoutContext();
     const { token, setClubActivities: setActivities, clubActivities: activities } = useStravaContext();
     const [colDefs, setColDefs] = useState<ColDef[]>([
         { field: 'athlete.firstname' },
@@ -24,7 +24,7 @@ const LeaderBoard: React.FC = () => {
         { field: 'total_elevation_gain' },
         { field: 'sport_type' },
         { field: 'workout_type' },
-    ])
+    ]);
 
     useEffect(() => {
         setLayoutState({
@@ -35,6 +35,7 @@ const LeaderBoard: React.FC = () => {
         if (!activities) {
             fetchActivities();
         };
+
     }, []);
 
     const fetchActivities = async () => {
@@ -46,10 +47,15 @@ const LeaderBoard: React.FC = () => {
             })
 
             setActivities(response.data);
+            updateGridData(response.data);
 
         } catch (error) {
 
         }
+    }
+
+    const onGridReady = (event: any) => {
+        setActivitiesGridApi({activitiesGridApi: event.api})
     }
 
     return (
@@ -63,6 +69,7 @@ const LeaderBoard: React.FC = () => {
                 <AgGridReact
                     rowData={activities}
                     columnDefs={colDefs}
+                    onGridReady={onGridReady}
                 />
             </div>
         </>

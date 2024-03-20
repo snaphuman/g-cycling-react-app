@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Slider from '@mui/material/Slider';
-import Typography from '@mui/material/Typography';
 import { useStravaContext } from "../store/StravaContext";
 import { ClubActivity } from "../models/StravaModels";
 import { useLayoutContext } from '../store/LayoutContext';
 
 type FilterClubActivitiesProps = {
     name: string;
+    field: string;
 }
 
 function valuetext(value: number) {
   return `${value}ºC`;
 }
 
-const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({name}: FilterClubActivitiesProps) => {
+const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({name, field}: FilterClubActivitiesProps) => {
 
     const { updateGridData } = useLayoutContext();
     const [rangeFilter, setRangeFilter] = useState([0,0]);
     const { clubActivities } = useStravaContext();
 
     const handleRangeFilter = (event: Event, range: number | number[]) => {
-
         const filter = filterActivitiesByRange(clubActivities as unknown as ClubActivity[], range)
         updateGridData(filter)
         setRangeFilter(range as number[]);
@@ -32,7 +31,7 @@ const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({name}: Filte
         if (!activities) return [];
 
         return activities.filter((activity: any) => 
-            activity.distance >= range[0] && activity.distance <= range[1]
+            activity[field] >= range[0] && activity[field] <= range[1]
         ); 
     }
 
@@ -42,42 +41,39 @@ const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({name}: Filte
     }, [clubActivities])
 
     const selectedRange = () => {
-        const start = clubActivities?.reduce((min: any, {distance}, index) => { 
-            if (index === 0 ) {
-                min = distance;
-            }
+            const start = clubActivities?.reduce((min: any, {distance, total_elevation_gain}, index) => { 
+                if (index === 0 ) {
+                    min = field === 'distance' ? distance : total_elevation_gain;
+                }
          
-           return (distance! < min) ? distance : min;
-        }, 0) ?? 0; 
+              return field === 'distance' ? ((distance! < min) ? distance : min) : ((total_elevation_gain! < min) ? total_elevation_gain : min);
+            }, 0) ?? 0; 
 
-        const end = clubActivities?.reduce((max: any, {distance}, index) => {
-            if (index === 0) {
-                max = distance;
-            }
+            const end = clubActivities?.reduce((max: any, {distance, total_elevation_gain}, index) => {
+                if (index === 0) {
+                    max = field === 'distance' ? distance : total_elevation_gain;
+                }
 
-            return (distance! > max) ? distance : max
-        }, 0) || 0;
+                return field === 'distance' ? ((distance! > max) ? distance : max) : ((total_elevation_gain! > max) ? total_elevation_gain : max);
+            }, 0) || 0;
 
-        return [start, end];
+            return [start, end];
     }
     
     return (
         <>
-            <h2>
-                {name}
+            <h2 id={`slider-range-${field}`}>
+                { field }
             </h2>
-            <Typography id="slider-range-distance" gutterBottom>
-                Distance
-            </Typography>
             <Slider 
-                getAriaLabel={() => 'Temperature range'}
+                getAriaLabel={() => 'Distance'}
                 value={rangeFilter}
                 min={selectedRange()[0]}
                 max={selectedRange()[1]}
                 onChange={handleRangeFilter}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
-                aria-labelledby="slider-range-distance"
+                aria-labelledby={`slider-range-${field}`}
             />
         </>
         )

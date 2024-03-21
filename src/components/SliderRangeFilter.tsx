@@ -60,9 +60,9 @@ const SliderRangeFilter: React.FC<SliderRangeFilterProps> = ({name, field}) => {
  
     return (
         <>
-            <h2 id={`slider-range-${field}`}>
-                { field }
-            </h2>
+            <h3 id={`slider-range-${field}`}>
+                { name }
+            </h3>
             <Slider 
                 getAriaLabel={() => 'Distance'}
                 value={rangeFilter}

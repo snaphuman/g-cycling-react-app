@@ -22,8 +22,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
             {
                 config.showSidebar && 
                 <aside className="sidebar">
-                    <FilterClubActivities name="Distance" field="distance" />
-                    <FilterClubActivities name="Total Elevation Gain" field="total_elevation_gain" />
+                    <FilterClubActivities title="Activities Filter" />
                 </aside>
             }
             

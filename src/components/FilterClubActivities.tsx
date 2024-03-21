@@ -2,20 +2,17 @@ import React from 'react';
 import SliderRangeFilter from './SliderRangeFilter';
 
 type FilterClubActivitiesProps = {
-    name: string;
-    field: string;
+    title: string;
 }
 
-function valuetext(value: number) {
-  return `${value}ºC`;
-}
-
-const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({name, field}: FilterClubActivitiesProps) => {
+const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({title}: FilterClubActivitiesProps) => {
 
     
     return (
         <>
+            <h2>{title}</h2>
             <SliderRangeFilter name="Distance" field="distance" />
+            <SliderRangeFilter name="Total Elevation Gain" field="total_elevation_gain" />
 
         </>
         )

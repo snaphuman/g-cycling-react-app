@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from 'react';
-import { StravaApi } from "../enums/StravaApi";
-import { useStravaContext } from "../store/StravaContext";
-import { ClubActivity } from "../models/StravaModels";
+import { StravaApi } from "../../enums/StravaApi";
+import { useStravaContext } from "../../store/StravaContext";
+import { ClubActivity } from "../../models/StravaModels";
 
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 import { ColDef } from 'ag-grid-community';
-import { useLayoutContext } from "../store/LayoutContext";
+import { useLayoutContext } from "../../store/LayoutContext";
 
 const ClubActivities: React.FC = () => {
 

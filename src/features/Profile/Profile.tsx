@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { useStravaContext } from "../store/StravaContext";
-import { useLayoutContext } from "../store/LayoutContext";
+import { useStravaContext } from "../../store/StravaContext";
+import { useLayoutContext } from "../../store/LayoutContext";
 
 const Profile: React.FC = () => {
 

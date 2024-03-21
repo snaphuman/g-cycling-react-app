@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useStravaContext } from "../store/StravaContext";
+import { useStravaContext } from "../../store/StravaContext";
 import { ComponentPropsWithoutRef } from "react";
 
 type MainNavigationProps = {

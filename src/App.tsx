@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import StravaCallback from './components/Strava/StravaCallback';
 import StravaAuthButton from './components/Strava/StravaAuthButton';
 import StravaContextProvider from './store/StravaContext';
-import ElementGuard from './components/Helpers/ElementGuard';
-import Profile from './components/Profile';
-import ClubActivities from './components/ClubActivities';
-import MainNavigation from './components/MainNavigation';
+import ElementGuard from './helpers/RouteElementGuard';
+import Profile from './features/Profile/Profile';
+import ClubActivities from './features/ClubActivities/ClubActivities';
+import MainNavigation from './features/Layout/MainNavigation';
 import LayoutContextProvider from './store/LayoutContext';
-import Layout from './components/Layout';
+import { Layout } from './features/Layout/Index';
 import './App.css';
 
 function App() {

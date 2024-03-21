@@ -1,7 +1,7 @@
-import { useStravaContext } from "../../store/StravaContext";
+import { useStravaContext } from "../store/StravaContext";
 import { Navigate } from "react-router-dom";
 
-const ElementGuard: React.FC<{children: JSX.Element}> = ({children}) => {
+const RouteElementGuard: React.FC<{children: JSX.Element}> = ({children}) => {
     const { isLoggedIn } = useStravaContext();
     return (
         <>
@@ -10,4 +10,4 @@ const ElementGuard: React.FC<{children: JSX.Element}> = ({children}) => {
     )
 }
 
-export default ElementGuard;
+export default RouteElementGuard;

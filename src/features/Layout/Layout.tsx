@@ -1,6 +1,6 @@
 import { type ComponentPropsWithoutRef, ReactNode } from "react";
-import { useLayoutContext } from "../store/LayoutContext";
-import FilterClubActivities from "./FilterClubActivities";
+import { useLayoutContext } from "../../store/LayoutContext";
+import FilterClubActivities from "../ClubActivities/ClubActivitiesFilter";
 
 
 type LayoutProps = {

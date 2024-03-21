@@ -1,5 +1,5 @@
 import React from 'react';
-import SliderRangeFilter from './SliderRangeFilter';
+import { SliderRangeFilter } from '../Filter/Index';
 
 type FilterClubActivitiesProps = {
     title: string;

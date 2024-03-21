@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLayoutContext } from "../store/LayoutContext";
-import { useStravaContext } from "../store/StravaContext";
-import { ClubActivity } from "../models/StravaModels";
+import { useLayoutContext } from "../../store/LayoutContext";
+import { useStravaContext } from "../../store/StravaContext";
+import { ClubActivity } from "../../models/StravaModels";
 import Slider from "@mui/material/Slider";
 
 type SliderRangeFilterProps = {

@@ -23,7 +23,6 @@ const StravaAuthButton: React.FC = () => {
         responseType: 'code',
         scope: 'read,read_all,profile:read_all,activity:read,activity:read_all,activity:write',
     }
-    console.log('auth data', authData)
 
     const authLink = `${authData.authUrl}?client_id=${authData.clientId}&redirect_uri=${authData.redirectUri}&response_type=${authData.responseType}&scope=${authData.scope}&approval_prompt=auto&state=test`;
 

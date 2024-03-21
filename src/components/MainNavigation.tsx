@@ -16,7 +16,7 @@ const MainNavigation: React.FC<MainNavigationProps> = ({...props}: MainNavigatio
                 <Link to="/">Home</Link>
                 { isLoggedIn 
                     ? 
-                    <Link to="/leaders-board">Leaders Board</Link>
+                    <Link to="/club-activities">Club Activities</Link>
                     :
                     null
                 }

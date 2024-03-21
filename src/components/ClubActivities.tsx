@@ -10,7 +10,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied
 import { ColDef } from 'ag-grid-community';
 import { useLayoutContext } from "../store/LayoutContext";
 
-const LeaderBoard: React.FC = () => {
+const ClubActivities: React.FC = () => {
 
     const { setLayoutState, updateGridData, setActivitiesGridApi } = useLayoutContext();
     const { token, setClubActivities: setActivities, clubActivities: activities } = useStravaContext();
@@ -76,4 +76,4 @@ const LeaderBoard: React.FC = () => {
     )
 }
 
-export default LeaderBoard;
+export default ClubActivities;

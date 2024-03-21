@@ -5,7 +5,7 @@ import StravaAuthButton from './components/Strava/StravaAuthButton';
 import StravaContextProvider from './store/StravaContext';
 import ElementGuard from './components/Helpers/ElementGuard';
 import Profile from './components/Profile';
-import LeaderBoard from './components/LeaderBoard';
+import ClubActivities from './components/ClubActivities';
 import MainNavigation from './components/MainNavigation';
 import LayoutContextProvider from './store/LayoutContext';
 import Layout from './components/Layout';
@@ -21,8 +21,8 @@ function App() {
             <BrowserRouter>
             <MainNavigation className='mainNav' />
               <Routes>
-                <Route path='/' element={<ElementGuard><Profile /></ElementGuard>}>Profile</Route>
-                <Route path='/leaders-board' element={<ElementGuard><LeaderBoard /></ElementGuard>}>LeaderBoard</Route>
+                <Route path='/' element={<ElementGuard><Profile /></ElementGuard>}></Route>
+                <Route path='/club-activities' element={<ElementGuard><ClubActivities /></ElementGuard>}></Route>
                 <Route path='/callback' element={<StravaCallback />} />
               </Routes>
             </BrowserRouter>

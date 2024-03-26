@@ -37,7 +37,6 @@ const SliderRangeFilter: React.FC<SliderRangeFilterProps> = ({name, field}) => {
         ); 
     }
 
-
     const selectedRange = () => {
             const start = clubActivities?.reduce((min: any, {distance, total_elevation_gain}, index) => { 
                 if (index === 0 ) {

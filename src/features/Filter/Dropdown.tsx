@@ -1,6 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from "@mui/material";
-import { ActivitySportType } from "../../models/StravaModels";
+import { ActivitySportType, ClubActivity } from "../../models/StravaModels";
 import { ComponentPropsWithoutRef, useState } from "react";
+import { useStravaContext } from "../../store/StravaContext";
+import { useLayoutContext } from "../../store/LayoutContext";
 
 type DropdownFilterProps = {
     name: string;
@@ -11,11 +13,19 @@ type DropdownFilterProps = {
 
 const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, options, ...props}) => {
 
+    const { updateGridData } = useLayoutContext();
+    const { clubActivities } = useStravaContext();
     const [sportType, setSportType] = useState<ActivitySportType>(ActivitySportType.AlpineSki);
 
-    const handleChange = (event: SelectChangeEvent) => {
+    const handleSelectChange = (event: SelectChangeEvent) => {
         const selected = event.target.value as unknown as ActivitySportType;
+        const filter = filterActivitiesBySportType(clubActivities as unknown as ClubActivity[], selected);
+        updateGridData(filter);
         setSportType(selected);
+    }
+
+    const filterActivitiesBySportType = (activities: ClubActivity[], selected: ActivitySportType) => {
+        return activities.filter(activity => activity.sport_type === selected);
     }
 
     return (
@@ -27,7 +37,7 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, options, ..
                     className={props.className}
                     value={sportType}
                     label={name}
-                    onChange={handleChange}
+                    onChange={handleSelectChange}
                 >
                     { 
                         options.map((option: ActivitySportType) => ( 

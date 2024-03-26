@@ -10,7 +10,6 @@ type FilterClubActivitiesProps = {
 const FilterClubActivities: React.FC<FilterClubActivitiesProps> = ({title}: FilterClubActivitiesProps) => {
 
     const sportTypes = Object.keys(ActivitySportType) as unknown as ActivitySportType[];
-    console.log(sportTypes)
     
     return (
         <>

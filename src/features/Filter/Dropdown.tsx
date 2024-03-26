@@ -15,8 +15,8 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, ...props}) 
     const { updateGridData } = useLayoutContext();
     const { clubActivities } = useStravaContext();
 
-    const [options, setOptions] = useState<ActivitySportType[]>([])
-    const [sportType, setSportType] = useState<ActivitySportType>(ActivitySportType.AlpineSki);
+    const [options, setOptions] = useState<(ActivitySportType | undefined)[]>([])
+    const [sportType, setSportType] = useState<ActivitySportType | string>('');
 
     useEffect(() => {
         const options = getUniqueSportTypesOptions();
@@ -26,11 +26,12 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, ...props}) 
     const getUniqueSportTypesOptions = () => {
         if (!clubActivities) { return [] };
 
-        const sportTypes = clubActivities?.map<ActivitySportType[]>((activity: any) => (activity.sport_type))
+        const sportTypes = clubActivities?.map<ActivitySportType | undefined>((activity) => (activity?.sport_type))
 
-        return sportTypes?.reduce<ActivitySportType[]>((list, option: any) => {
-            return !list.includes(option) ? [...list, option] : list;
-        }, []) as ActivitySportType[];
+        return sportTypes?.reduce<(ActivitySportType | undefined)[]>((list, option) => {
+
+            return !list?.includes(option) ? [...list, option] : list;
+        }, [] as (ActivitySportType | undefined)[]);
     }
 
     const handleSelectChange = (event: SelectChangeEvent) => {
@@ -56,7 +57,7 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, ...props}) 
                     onChange={handleSelectChange}
                 >
                     { 
-                        options.map((option: ActivitySportType) => ( 
+                        options.map((option) => ( 
                             <MenuItem key={option} value={option}>{option}</MenuItem>
                         ))}
                 </Select>

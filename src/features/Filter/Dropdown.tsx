@@ -1,15 +1,15 @@
 import { FormControl, InputLabel, MenuItem, Select, type SelectChangeEvent } from "@mui/material";
 import { ActivitySportType } from "../../models/StravaModels";
-import { useState } from "react";
+import { ComponentPropsWithoutRef, useState } from "react";
 
 type DropdownFilterProps = {
     name: string;
     field: string;
     options: ActivitySportType[];
-}
+} & ComponentPropsWithoutRef<'div'>;
 
 
-const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, options}) => {
+const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, options, ...props}) => {
 
     const [sportType, setSportType] = useState<ActivitySportType>(ActivitySportType.AlpineSki);
 
@@ -20,10 +20,11 @@ const DropdownFilter: React.FC<DropdownFilterProps> = ({name, field, options}) =
 
     return (
         <>
-            <h2>{ name }</h2>
-            <FormControl>
+            <h3>{ name }</h3>
+            <FormControl className={props.className}>
                 <InputLabel>{ name }</InputLabel>
                 <Select
+                    className={props.className}
                     value={sportType}
                     label={name}
                     onChange={handleChange}

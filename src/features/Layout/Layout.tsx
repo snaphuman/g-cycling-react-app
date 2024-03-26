@@ -1,6 +1,7 @@
 import { type ComponentPropsWithoutRef, ReactNode } from "react";
 import { useLayoutContext } from "../../store/LayoutContext";
 import FilterClubActivities from "../ClubActivities/ClubActivitiesFilter";
+import StravaAuthButton from '../../components/Strava/StravaAuthButton';
 
 
 type LayoutProps = {
@@ -17,6 +18,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                 <h1>
                 Welcome to g-cycling-col!
                 </h1>
+                <StravaAuthButton />
             </header>
 
             {

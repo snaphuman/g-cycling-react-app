@@ -1,6 +1,5 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import StravaCallback from './components/Strava/StravaCallback';
-import StravaAuthButton from './components/Strava/StravaAuthButton';
 import StravaContextProvider from './store/StravaContext';
 import ElementGuard from './helpers/RouteElementGuard';
 import Profile from './features/Profile/Profile';
@@ -13,7 +12,6 @@ import './App.css';
 function App() {
   return (
     <StravaContextProvider>
-        <StravaAuthButton />
 
         <LayoutContextProvider>
           <Layout>

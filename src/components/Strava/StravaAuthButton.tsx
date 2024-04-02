@@ -1,7 +1,7 @@
 import axios from "axios";
 import { StravaApi } from "../../enums/StravaApi";
 import { useStravaContext } from "../../store/StravaContext";
-import { NavLink } from "react-router-dom";
+import { Button } from "@mui/material";
 
 export type AuthDataType = {
     authUrl?: string,
@@ -42,8 +42,8 @@ const StravaAuthButton: React.FC = () => {
         window.location.href = authLink;
     }
 
-    return isLoggedIn ? <button onClick={disconnect}>Disconnect</button> 
-                      : <button onClick={connect}>Connect with Strava</button>
+    return isLoggedIn ? <Button color="inherit" onClick={disconnect}>Disconnect</Button> 
+                      : <Button color="inherit" onClick={connect}>Connect with Strava</Button>
 } 
 
 export default StravaAuthButton;

@@ -88,3 +88,54 @@ export class ClubActivity {
         public workout_type?: number,
     ) {}
 }
+
+export class AthleteActivity {
+    constructor (
+        public id: number,
+        public external_id: number,
+        public resource_state: number,
+        public athlete: Athlete,
+        public name: string,
+        public distance: number,
+        public moving_time: number,
+        public elapsed_time: number,
+        public total_elevation_gain: number,
+        public sport_type: ActivitySportType,
+        public workout_type: number,
+        public upload_id: number,
+        public start_date: string,
+        public start_date_local: string,
+        public timezone: string,
+        public start_latlng: string, // LatLng
+        public end_latlng: string, // LatLng
+        public location_city: string,
+        public location_state: string,
+        public location_country: string,
+        public achievement_count: number,
+        public kudos_count: number,
+        public comment_count: number,
+        public athlete_count: number,
+        public photo_count: number,
+        public map : Object, // PolylineMap
+        public trainer: boolean,
+        public commute: boolean,
+        public manual: boolean,
+        public isPrivate: boolean,
+        public flagged: boolean,
+        public gear_id: string,
+        public average_speed: number,
+        public max_speed: number,
+        public average_cadence: number,
+        public average_watts: number,
+        public weighted_average_watts: number,
+        public kilojoules: string,
+        public device_watts: boolean,
+        public has_heartrate: boolean,
+        public average_heartrate: number,
+        public max_heartrate: number,
+        public max_watts: number,
+        public pr_count: number,
+        public total_photo_count: number,
+        public has_kudoed: boolean,
+    ) {}
+}

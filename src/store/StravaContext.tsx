@@ -1,5 +1,5 @@
 import  { type ReactNode, createContext, useContext, useReducer} from 'react';
-import { Athlete, ClubActivity } from '../models/StravaModels';
+import { Athlete, AthleteActivity, ClubActivity } from '../models/StravaModels';
 
 type StravaState = {
     isLoggedIn?: boolean;
@@ -7,6 +7,7 @@ type StravaState = {
     token?: string;
     loggedInAthlete?: Athlete;
     clubActivities?: ClubActivity[];
+    athleteActivities?: AthleteActivity[];
 }
 
 type StravaContextValue = StravaState & {
@@ -14,6 +15,7 @@ type StravaContextValue = StravaState & {
     removeToken: () => void;
     setAthlete: (athlete: Athlete) => void;
     setClubActivities: (activities: ClubActivity[]) => void;
+    setAthleteActivities: (activities: AthleteActivity[]) => void;
 }
 
 type StravaContextProviderProps = {
@@ -39,8 +41,12 @@ type SetClubActivitiesAction = {
     type: 'SET_ACTIVITIES',
 }
 
+type SetAthleteActivitiesAction = {
+    payload?: Partial<StravaState>,
+    type: 'SET_ATHLETE_ACTIVITIES',
+}
 
-type Action = SetTokenAction | RemoveTokenAction | SetAthleteAction | SetClubActivitiesAction;
+type Action = SetTokenAction | RemoveTokenAction | SetAthleteAction | SetClubActivitiesAction | SetAthleteActivitiesAction;
 
 const StravaContext = createContext<StravaContextValue | null>(null);
 const initialState: StravaState = {
@@ -87,6 +93,11 @@ function stravaReducer(state: StravaState, action: Action) {
                 ...state,
                 clubActivities: action.payload?.clubActivities 
             }
+        case 'SET_ATHLETE_ACTIVITIES':
+            return {
+                ...state,
+                athleteActivities: action.payload?.athleteActivities, 
+            }
     }
 
     return state;
@@ -102,6 +113,7 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         token: stravaState.token,
         loggedInAthlete: stravaState.loggedInAthlete,
         clubActivities: stravaState.clubActivities,
+        athleteActivities: stravaState.athleteActivities,
         setToken: (token) => {
             dispatch({type: 'SET_TOKEN', payload: {token}}) 
         },
@@ -113,6 +125,9 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         },
         setClubActivities: (activities) => {
             dispatch({type: 'SET_ACTIVITIES', payload: { clubActivities: activities}})
+        },
+        setAthleteActivities: (activities) => {
+            dispatch({type: 'SET_ATHLETE_ACTIVITIES', payload: { athleteActivities: activities}})
         }
     }
 

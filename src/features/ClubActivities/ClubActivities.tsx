@@ -60,7 +60,7 @@ const ClubActivities: React.FC = () => {
     return (
         <>
             <h2>
-                Leader Board
+                Club activities
             </h2>
             <div className="ag-theme-quartz"
                  style={{ height: 500 }}

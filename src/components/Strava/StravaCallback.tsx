@@ -8,7 +8,7 @@ import { Athlete } from "../../models/StravaModels";
 
 const StravaCallback: React.FC = () => {
 
-    const { token, setToken, setAthlete } = useStravaContext();
+    const { token, setToken } = useStravaContext();
     const navigate = useNavigate();
 
     const [searchParams] = useSearchParams();
@@ -40,7 +40,6 @@ const StravaCallback: React.FC = () => {
 
             if(accessToken) {
                 setToken(accessToken);
-                setAthlete(athlete);
                 navigate('/');
             }
         } catch (error) {

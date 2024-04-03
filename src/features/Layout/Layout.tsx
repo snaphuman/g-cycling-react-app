@@ -7,6 +7,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useStravaContext } from "../../store/StravaContext";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as GlobantIcon } from '../../globant-dark-logo.svg';
+import { FeaturedMedia } from '../.././features/Layout/Index';
 
 type LayoutProps = {
     children: ReactNode;
@@ -86,6 +87,11 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                                             >
                                                 Club Activities 
                                             </Button>
+                                            <Button 
+                                                onClick={() => navigateTo('my-activities')} 
+                                            >
+                                                My Activities 
+                                            </Button>
                                         </MenuItem>
                                     </Menu>
                                 </Box>
@@ -101,6 +107,12 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                                         sx={{ my: 2, color: 'white', display: 'block'}}
                                     >
                                         Club Activities
+                                    </Button>
+                                    <Button 
+                                        onClick={() => navigateTo('my-activities')} 
+                                        sx={{ my: 2, color: 'white', display: 'block'}}
+                                    >
+                                        My Activities
                                     </Button>
                                  </Box>
                                     <Box sx={{ flexGrow: 0 }}>
@@ -138,6 +150,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                         </Container>
                     </AppBar>
                 </header>
+                <FeaturedMedia className='featured'></FeaturedMedia>
                 {
                     config.showSidebar && 
                     <aside className="sidebar">

@@ -1,9 +1,11 @@
 import  { type ReactNode, createContext, useContext, useReducer} from 'react';
 import { Athlete, AthleteActivity, ClubActivity } from '../models/StravaModels';
+import { StravaApi } from '../enums/StravaApi';
 
 type StravaState = {
     isLoggedIn?: boolean;
     isAdmin?: boolean;
+    isGlober?: boolean;
     token?: string;
     loggedInAthlete?: Athlete;
     clubActivities?: ClubActivity[];
@@ -52,6 +54,7 @@ const StravaContext = createContext<StravaContextValue | null>(null);
 const initialState: StravaState = {
     isLoggedIn: false,
     isAdmin: false,
+    isGlober: false,
     token: undefined,
     loggedInAthlete: new Athlete(), 
     clubActivities: undefined,
@@ -86,6 +89,7 @@ function stravaReducer(state: StravaState, action: Action) {
         case 'SET_ATHLETE':
             return {
                 ...state,
+                isGlober: athleteBelongsToClub(StravaApi.CLUB_ID as unknown as number, state.loggedInAthlete?.clubs),
                 loggedInAthlete: action.payload?.loggedInAthlete,
             }
         case 'SET_ACTIVITIES':
@@ -103,6 +107,11 @@ function stravaReducer(state: StravaState, action: Action) {
     return state;
 };
 
+const athleteBelongsToClub = (clubId: number, clubs?: any[])  => {
+    return clubs?.find((club) => club.id == clubId) ? true : false;
+}
+
+
 const StravaContextProvider = ({children}: StravaContextProviderProps) => {
 
     const [stravaState, dispatch] = useReducer(stravaReducer, initialState);
@@ -110,6 +119,7 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
     const ctx: StravaContextValue = {
         isAdmin: stravaState.isAdmin,
         isLoggedIn: stravaState.isLoggedIn,
+        isGlober: stravaState.isGlober,
         token: stravaState.token,
         loggedInAthlete: stravaState.loggedInAthlete,
         clubActivities: stravaState.clubActivities,

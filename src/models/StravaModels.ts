@@ -73,6 +73,7 @@ export class Athlete {
         public profile?: string,
         public friend?: string,
         public follower?: string,
+        public clubs?: any[]
     ) {}
 }
 

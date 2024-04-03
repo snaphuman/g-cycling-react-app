@@ -9,7 +9,7 @@ import { Athlete } from "../../models/StravaModels";
 const Profile: React.FC = () => {
 
     const { setLayoutState } = useLayoutContext();
-    const { token, isLoggedIn, loggedInAthlete: profile, setAthlete } = useStravaContext();
+    const { token, isLoggedIn, loggedInAthlete: profile, setAthlete, isGlober } = useStravaContext();
 
     useEffect(() => {
         setLayoutState({
@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
             showSidebar: false,
         });
 
-        if (isLoggedIn && !profile) {
+        if (isLoggedIn) {
             getLoggedIntAthlete();
         }
     }, []);

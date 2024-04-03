@@ -36,7 +36,7 @@ const StravaCallback: React.FC = () => {
                 grant_type: 'authorization_code',
             });
 
-            const { access_token: accessToken, athlete }: { access_token: string, athlete: Athlete } = response.data;
+            const { access_token: accessToken }: { access_token: string, athlete: Athlete } = response.data;
 
             if(accessToken) {
                 setToken(accessToken);

@@ -29,7 +29,6 @@ const Profile: React.FC = () => {
             }
         });
 
-        console.log(response.data)
         setAthlete(response.data);
     }
 

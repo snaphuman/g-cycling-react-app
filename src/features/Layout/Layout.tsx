@@ -1,6 +1,6 @@
 import { type ComponentPropsWithoutRef, ReactNode, MouseEvent, useState } from "react";
 import { useLayoutContext } from "../../store/LayoutContext";
-import FilterClubActivities from "../ClubActivities/ClubActivitiesFilter";
+import FilterClubActivities from "../Club/ClubActivitiesFilter";
 import StravaAuthButton from '../../components/Strava/StravaAuthButton';
 import { AppBar, Avatar, Box, IconButton, Button, Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography, createTheme, SvgIcon, Container } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
@@ -132,7 +132,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                                         >
                                             <MenuItem onClick={handleCloseUserMenu}>
                                                 <Button
-                                                    onClick={() => navigateTo('/')}
+                                                    onClick={() => navigateTo('/profile')}
                                                 >
                                                     Profile
                                                 </Button>

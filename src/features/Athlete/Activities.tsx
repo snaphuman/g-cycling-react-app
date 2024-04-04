@@ -11,7 +11,7 @@ type ActivitiesProps = {
 
 } & ComponentPropsWithoutRef<'section'>;
 
-const Activities: React.FC<ActivitiesProps> = ({...props}) => {
+const AthleteActivities: React.FC<ActivitiesProps> = ({...props}) => {
 
     const { setLayoutState } = useLayoutContext();
     const { token, setAthleteActivities, athleteActivities: activities } = useStravaContext();
@@ -70,4 +70,4 @@ const Activities: React.FC<ActivitiesProps> = ({...props}) => {
     )
 }
 
-export default Activities;
+export default AthleteActivities;

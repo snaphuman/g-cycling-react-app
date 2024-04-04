@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropdownFilter, SliderRangeFilter } from '../Filter/Index';
+import { DropdownFilter, SliderRangeFilter } from '../../components/Filter/Index';
 import './ClubActivities.css';
 
 type FilterClubActivitiesProps = {

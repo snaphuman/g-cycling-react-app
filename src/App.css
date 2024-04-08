@@ -4,6 +4,7 @@
   grid-template-rows: auto;
   grid-template-areas:
     "header"
+    "featured"
     "mainNav"
     "content"
     "footer";
@@ -22,6 +23,11 @@
 .header {
   grid-area: header;
   padding: 20px;
+}
+
+.featured {
+  grid-area: featured;
+  height: 300px;
 }
 
 .mainNav {

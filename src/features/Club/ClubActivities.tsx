@@ -54,7 +54,7 @@ const ClubActivities: React.FC = () => {
         return (
             <>
                 <h2>
-                    You don't have permissions to acces this Club
+                    You don't have permissions to access this Club
                 </h2>
             </>
         )

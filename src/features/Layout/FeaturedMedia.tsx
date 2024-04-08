@@ -1,4 +1,4 @@
-import { Container } from "@mui/material";
+import { Container, Paper, styled } from "@mui/material";
 import { ComponentPropsWithoutRef } from "react"
 
 type FeaturedMediaProps = {
@@ -7,12 +7,18 @@ type FeaturedMediaProps = {
 
 const FeaturedMedia: React.FC<FeaturedMediaProps> = ({...props}) => {
 
+    const FullWidthPaper = styled(Paper)({})
+
+    const FluidImage = styled('img')({
+        width: '100%',
+        height: '300px',
+    })
+
     return (
-        <section {...props} >
-            <Container maxWidth="xl">
-                Featured Media
-            </Container>
-        </section>
+        <FullWidthPaper {...props} elevation={2}>
+            <FluidImage src="https://source.unsplash.com/random/1920x300"
+                        alt="Dummy banner" />
+        </FullWidthPaper>
     )
 }
 

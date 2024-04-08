@@ -7,12 +7,12 @@ import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css"; // Mandatory CSS required by the grid
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Optional Theme applied to the grid
 import { ColDef } from 'ag-grid-community';
-import { useLayoutContext } from "../../store/LayoutContext";
+import { LayoutState, useLayoutContext } from "../../store/LayoutContext";
 
 const ClubActivities: React.FC = () => {
 
-    const { setLayoutState, updateGridData, setActivitiesGridApi } = useLayoutContext();
-    const { token, setClubActivities: setActivities, clubActivities, isGlober } = useStravaContext();
+    const { setLayoutState, setActivitiesGridApi, updateGridData } = useLayoutContext();
+    const { clubActivities, loggedInAthlete, setAthlete, isGlober } = useStravaContext();
     const [colDefs, setColDefs] = useState<ColDef[]>([
         { field: 'athlete.firstname' },
         { field: 'athlete.lastname' },
@@ -26,31 +26,40 @@ const ClubActivities: React.FC = () => {
     ]);
 
     useEffect(() => {
-        const layoutState = {
+        const config: Partial<LayoutState> = {
             isFrontPage: false,
-            showSidebar: true,
         }
 
-        if (isGlober) {
-            setLayoutState({
-                ...layoutState,
-                showSidebar: true,
-            });
-        } else {
-            setLayoutState({
-                ...layoutState,
-                showSidebar: false,
-            });
+        setLayoutState(isGlober 
+                       ? {...config, showSidebar: true}
+                       : {...config, showSidebar: false});
+
+        if (loggedInAthlete){
+            const isGlober = athleteBelongsToClub(StravaApi.CLUB_ID as unknown as number, loggedInAthlete?.clubs)
+            setAthlete(loggedInAthlete, isGlober)
         }
 
-        if (isGlober) {
-            updateGridData(clubActivities || []);
-        };
-
-    }, []);
+        updateGridData(clubActivities as ClubActivity[])
+    }, [isGlober]);
 
     const onGridReady = (event: any) => {
         setActivitiesGridApi({activitiesGridApi: event.api})
+    }
+
+    const athleteBelongsToClub = (clubId: number, clubs?: any[])  => {
+        return clubs?.find((club) => club.id == clubId) ? true : false;
+    }
+
+    if (!isGlober) {
+        return (
+            <>
+                <h2>
+                    You don't have permissions to acces this Club
+                </h2>
+            </>
+        )
+
+
     }
 
     return (

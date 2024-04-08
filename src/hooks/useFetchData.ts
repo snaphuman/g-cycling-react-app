@@ -22,14 +22,14 @@ const useFetchData = () => {
     const fetchData = async () => {
         const data = await axios.all<AxiosResponse<any>>([
                        getLoggedIntAthlete(),
-                       getLoggedInAthleteActivities(),
                        getClubActivitiesById(),
+                       getLoggedInAthleteActivities(),
                      ]);
 
         console.log('data', data);
         setAthlete(data[0]?.data);
-        setAthleteActivities(data[1]?.data);
-        setClubActivities(data[2]?.data);
+        setClubActivities(data[1]?.data);
+        setAthleteActivities(data[2]?.data);
                          
     }
 

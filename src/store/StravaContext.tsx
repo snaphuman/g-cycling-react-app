@@ -1,6 +1,5 @@
 import  { type ReactNode, createContext, useContext, useReducer} from 'react';
 import { Athlete, AthleteActivity, ClubActivity } from '../models/StravaModels';
-import { StravaApi } from '../enums/StravaApi';
 
 type StravaState = {
     isLoggedIn?: boolean;
@@ -15,7 +14,7 @@ type StravaState = {
 type StravaContextValue = StravaState & {
     setToken: (token: string) => void;
     removeToken: () => void;
-    setAthlete: (athlete: Athlete) => void;
+    setAthlete: (athlete: Athlete, isGlober?: boolean) => void;
     setClubActivities: (activities: ClubActivity[]) => void;
     setAthleteActivities: (activities: AthleteActivity[]) => void;
 }
@@ -70,7 +69,7 @@ export function useStravaContext() {
     return stravaCtx;
 }
 
-function stravaReducer(state: StravaState, action: Action) {
+function stravaReducer(state: StravaState, action: Action): StravaState {
 
     switch (action.type) {
         case 'SET_TOKEN':
@@ -89,27 +88,23 @@ function stravaReducer(state: StravaState, action: Action) {
         case 'SET_ATHLETE':
             return {
                 ...state,
-                isGlober: athleteBelongsToClub(StravaApi.CLUB_ID as unknown as number, state.loggedInAthlete?.clubs),
-                loggedInAthlete: action.payload?.loggedInAthlete,
+                isGlober: action.payload?.isGlober,
+                loggedInAthlete: {...state.loggedInAthlete, ...action.payload?.loggedInAthlete}
             }
         case 'SET_ACTIVITIES':
             return {
                 ...state,
-                clubActivities: action.payload?.clubActivities 
+                clubActivities: action.payload?.clubActivities,
             }
         case 'SET_ATHLETE_ACTIVITIES':
             return {
                 ...state,
-                athleteActivities: action.payload?.athleteActivities, 
+                athleteActivities: action.payload?.athleteActivities
             }
     }
 
     return state;
 };
-
-const athleteBelongsToClub = (clubId: number, clubs?: any[])  => {
-    return clubs?.find((club) => club.id == clubId) ? true : false;
-}
 
 
 const StravaContextProvider = ({children}: StravaContextProviderProps) => {
@@ -130,8 +125,8 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
         removeToken: () => {
             dispatch({type: 'REMOVE_TOKEN'})
         },
-        setAthlete: (athlete) => {
-            dispatch({type: 'SET_ATHLETE', payload: {loggedInAthlete: athlete}})
+        setAthlete: (athlete, isGlober?: boolean) => {
+            dispatch({type: 'SET_ATHLETE', payload: {loggedInAthlete: athlete, isGlober: isGlober}})
         },
         setClubActivities: (activities) => {
             dispatch({type: 'SET_ACTIVITIES', payload: { clubActivities: activities}})

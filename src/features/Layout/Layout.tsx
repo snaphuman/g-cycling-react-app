@@ -1,4 +1,4 @@
-import { type ComponentPropsWithoutRef, ReactNode, MouseEvent, useState } from "react";
+import { type ComponentPropsWithoutRef, ReactNode, MouseEvent, useState, useEffect } from "react";
 import { useLayoutContext } from "../../store/LayoutContext";
 import FilterClubActivities from "../Club/ClubActivitiesFilter";
 import StravaAuthButton from '../../components/Strava/StravaAuthButton';
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { ReactComponent as GlobantIcon } from '../../globant-dark-logo.svg';
 import { FeaturedMedia } from '../.././features/Layout/Index';
 import useFetchData from "../../hooks/useFetchData";
+import { StravaApi } from "../../enums/StravaApi";
 
 type LayoutProps = {
     children: ReactNode;
@@ -25,7 +26,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
     useFetchData();
 
     const config = useLayoutContext();
-    const { isLoggedIn, loggedInAthlete } = useStravaContext();
+    const { isLoggedIn, loggedInAthlete, setAthlete } = useStravaContext();
 
     const [anchorElUser, setAnchorElUser] = useState<HTMLElement | null>(null)
     const [anchorElNav, setAnchorElNav] = useState<HTMLElement | null>(null)

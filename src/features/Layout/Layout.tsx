@@ -2,12 +2,12 @@ import { type ComponentPropsWithoutRef, ReactNode, MouseEvent, useState, useEffe
 import { useLayoutContext } from "../../store/LayoutContext";
 import FilterClubActivities from "../Club/ClubActivitiesFilter";
 import StravaAuthButton from '../../components/Strava/StravaAuthButton';
-import { AppBar, Avatar, Box, IconButton, Button, Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography, createTheme, SvgIcon, Container } from "@mui/material";
+import { AppBar, Avatar, Box, IconButton, Button, Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography, createTheme, SvgIcon, Container, styled } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useStravaContext } from "../../store/StravaContext";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as GlobantIcon } from '../../globant-dark-logo.svg';
-import { FeaturedMedia } from '../.././features/Layout/Index';
+import { FeaturedMedia, Footer } from '../.././features/Layout/Index';
 import useFetchData from "../../hooks/useFetchData";
 import { StravaApi } from "../../enums/StravaApi";
 
@@ -49,6 +49,12 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
         setAnchorElNav(null);
     }
 
+    const Brand = styled('div')({
+        display: 'flex',
+        alignItems: 'center',
+        cursor: 'pointer',
+    })
+
     return (
         <ThemeProvider theme={theme}>
             <div className={ config.showSidebar ? 'grid-container sidebar-on' : 'grid-container'}>
@@ -56,10 +62,12 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                     <AppBar position="static">
                         <Container maxWidth="xl">
                             <Toolbar disableGutters>
-                                <SvgIcon sx={{ display: { xs: 'none', md: 'flex'}, mr: 1, width: '2rem'}} component={GlobantIcon} inheritViewBox />
-                                <Typography variant="h6" component="div" sx={{ mr: 2, display: { xs: 'none', md: 'flex'} }}>
-                                    g-cycling-col
-                                </Typography>
+                                <Brand onClick={() => navigateTo('/')}>
+                                    <SvgIcon sx={{ display: { xs: 'none', md: 'flex'}, mr: 1, width: '2rem'}} component={GlobantIcon} inheritViewBox />
+                                    <Typography variant="h6" component="div" sx={{ mr: 2, display: { xs: 'none', md: 'flex'} }}>
+                                        g-cycling-col
+                                    </Typography>
+                                </Brand>
                                 <Box sx={{flexGrow: 1, display: {xs: 'flex', md: 'none'}}}>
                                     <IconButton
                                         size="large"
@@ -87,10 +95,19 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                                         >
                                         <MenuItem onClick={handleCloseNav}>
                                             <Button 
+                                                onClick={() => navigateTo('/')} 
+                                            >
+                                                Home
+                                            </Button>
+                                        </MenuItem>
+                                        <MenuItem onClick={handleCloseNav}>
+                                            <Button 
                                                 onClick={() => navigateTo('club-activities')} 
                                             >
                                                 Club Activities 
                                             </Button>
+                                        </MenuItem>
+                                        <MenuItem>
                                             <Button 
                                                 onClick={() => navigateTo('my-activities')} 
                                             >
@@ -170,11 +187,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                         { children }
                     </Container>
                 </section>
-                <footer className='footer'>
-                    <Container maxWidth="xl">
-                        Footer
-                    </Container>
-                </footer>
+                <Footer className="footer" />
             </div>
         </ThemeProvider>
     )

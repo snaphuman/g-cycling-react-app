@@ -1,6 +1,7 @@
 import { Avatar, Typography, styled } from "@mui/material";
 import { ComponentPropsWithoutRef } from "react"
 import { useStravaContext } from "../../store/StravaContext";
+import { Stats } from "../Athlete/Index";
 
 type WelcomeProps = {
 
@@ -13,6 +14,15 @@ const Welcome: React.FC<WelcomeProps> = () => {
     const HeadLine = styled('div')({
         marginTop: '-75px',
     });
+
+    const statsTypes = [
+        "distance",
+        "achievement_count",
+        "count",
+        "elapsed_time",
+        "elevation_gain",
+        "moving_time"
+    ]
 
     return (
         <section>
@@ -27,6 +37,8 @@ const Welcome: React.FC<WelcomeProps> = () => {
                         `Kudos ${athlete?.firstname} ${athlete?.lastname}.`
                     }
                 </Typography>
+                <Stats types={statsTypes} source="recentRideTotals" />
+
             </HeadLine>
         </section>
     )

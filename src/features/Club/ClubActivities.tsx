@@ -58,8 +58,6 @@ const ClubActivities: React.FC = () => {
                 </h2>
             </>
         )
-
-
     }
 
     return (

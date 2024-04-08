@@ -33,23 +33,19 @@
 .mainNav {
   grid-area: mainNav;
   padding: 20px;
-  background-color: #ffa08c;
 }
 
 .sidebar {
   grid-area: sidebar;
   padding: 20px;
-  background-color: #ffa08c;
 }
 
 .content {
   grid-area: content;
   padding: 20px;
-  background-color: #8cffa0;
 }
 
 .footer {
   grid-area: footer;
   padding: 20px;
-  background-color: #8c8cff;
 }

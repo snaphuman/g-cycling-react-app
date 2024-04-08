@@ -8,6 +8,7 @@ import { useStravaContext } from "../../store/StravaContext";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as GlobantIcon } from '../../globant-dark-logo.svg';
 import { FeaturedMedia } from '../.././features/Layout/Index';
+import useFetchData from "../../hooks/useFetchData";
 
 type LayoutProps = {
     children: ReactNode;
@@ -20,6 +21,8 @@ const theme = createTheme({
 });
 
 const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
+
+    useFetchData();
 
     const config = useLayoutContext();
     const { isLoggedIn, loggedInAthlete } = useStravaContext();
@@ -153,15 +156,23 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                 <FeaturedMedia className='featured'></FeaturedMedia>
                 {
                     config.showSidebar && 
+                    // Needs Review. When sidebar is opened, Grid is 
+                    // not able to process layout columns when
+                    // using Container. Review flexbox approach for this
+                    // region 
                     <aside className="sidebar">
                         <FilterClubActivities title="Activities Filter" />
                     </aside>
                 }
                 <section className="content">
-                    { children }
+                    <Container maxWidth="xl">
+                        { children }
+                    </Container>
                 </section>
                 <footer className='footer'>
-                    Footer
+                    <Container maxWidth="xl">
+                        Footer
+                    </Container>
                 </footer>
             </div>
         </ThemeProvider>

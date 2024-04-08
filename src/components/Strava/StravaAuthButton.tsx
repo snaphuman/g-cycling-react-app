@@ -2,6 +2,7 @@ import axios from "axios";
 import { StravaApi } from "../../enums/StravaApi";
 import { useStravaContext } from "../../store/StravaContext";
 import { Button } from "@mui/material";
+import { LayoutState, useLayoutContext } from "../../store/LayoutContext";
 
 export type AuthDataType = {
     authUrl?: string,
@@ -15,6 +16,7 @@ export type AuthDataType = {
 
 const StravaAuthButton: React.FC = () => {
 
+    const { setLayoutState } = useLayoutContext()
     const { token, removeToken, isLoggedIn } = useStravaContext();
 
     const authData: AuthDataType = {
@@ -34,8 +36,14 @@ const StravaAuthButton: React.FC = () => {
             access_token: token,
         });  
 
-        console.info('disconnected ok:', response)
+        const config: Partial<LayoutState> = {
+            showSidebar: false
+        }
+
+        setLayoutState(config)
         removeToken();
+
+        console.info('disconnected ok:', response)
     }
 
     const connect = () => {

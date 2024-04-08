@@ -12,7 +12,7 @@ import { useLayoutContext } from "../../store/LayoutContext";
 const ClubActivities: React.FC = () => {
 
     const { setLayoutState, updateGridData, setActivitiesGridApi } = useLayoutContext();
-    const { token, setClubActivities: setActivities, clubActivities: activities, isGlober } = useStravaContext();
+    const { token, setClubActivities: setActivities, clubActivities, isGlober } = useStravaContext();
     const [colDefs, setColDefs] = useState<ColDef[]>([
         { field: 'athlete.firstname' },
         { field: 'athlete.lastname' },
@@ -27,7 +27,8 @@ const ClubActivities: React.FC = () => {
 
     useEffect(() => {
         const layoutState = {
-            isFrontPage: false
+            isFrontPage: false,
+            showSidebar: true,
         }
 
         if (isGlober) {
@@ -42,40 +43,14 @@ const ClubActivities: React.FC = () => {
             });
         }
 
-        if (!activities && isGlober) {
-            fetchActivities();
+        if (isGlober) {
+            updateGridData(clubActivities || []);
         };
 
     }, []);
 
-    const fetchActivities = async () => {
-        try {
-            const response = await axios.get<ClubActivity[]>(`${StravaApi.API_URL}/clubs/${StravaApi.CLUB_ID}/activities`, {
-                headers: {
-                    Authorization: `Bearer ${ token }`,
-                }
-            })
-
-            setActivities(response.data);
-            updateGridData(response.data);
-
-        } catch (error) {
-
-        }
-    }
-
     const onGridReady = (event: any) => {
         setActivitiesGridApi({activitiesGridApi: event.api})
-    }
-
-    if(!isGlober) {
-        return (
-            <>
-                <h2>
-                    Please request to be a Member of Globant Cycling Community to display Club Activities
-                </h2>
-            </>
-        )
     }
 
     return (
@@ -87,7 +62,7 @@ const ClubActivities: React.FC = () => {
                  style={{ height: 500 }}
             >
                 <AgGridReact
-                    rowData={activities}
+                    rowData={clubActivities}
                     columnDefs={colDefs}
                     onGridReady={onGridReady}
                 />

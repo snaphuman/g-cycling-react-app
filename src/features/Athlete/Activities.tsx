@@ -14,7 +14,7 @@ type ActivitiesProps = {
 const AthleteActivities: React.FC<ActivitiesProps> = ({...props}) => {
 
     const { setLayoutState } = useLayoutContext();
-    const { token, setAthleteActivities, athleteActivities: activities } = useStravaContext();
+    const { athleteActivities: activities } = useStravaContext();
 
     const [colDefs, setColDefs] = useState<ColDef[]>([
         { field: 'name' },
@@ -31,22 +31,7 @@ const AthleteActivities: React.FC<ActivitiesProps> = ({...props}) => {
             isFrontPage: false,
             showSidebar: false,
         });
-
-        if (!activities) {
-            getLoggedIntAthlete();
-        }
     }, []);
-
-    const getLoggedIntAthlete = async () => {
-        const response = await axios.get<AthleteActivity[]>(`${StravaApi.API_URL}/athlete/activities`, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        console.log(response.data)
-        setAthleteActivities(response.data);
-    }
 
     const onGridReady = (event: any) => {
         console.log('grid api', event)

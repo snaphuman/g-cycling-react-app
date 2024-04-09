@@ -1,7 +1,8 @@
 import { Avatar, Typography, styled } from "@mui/material";
-import { ComponentPropsWithoutRef } from "react"
+import { ComponentPropsWithoutRef, useEffect } from "react"
 import { useStravaContext } from "../../store/StravaContext";
 import { Stats } from "../Athlete/Index";
+import { LayoutState, useLayoutContext } from "../../store/LayoutContext";
 
 type WelcomeProps = {
 
@@ -10,6 +11,7 @@ type WelcomeProps = {
 const Welcome: React.FC<WelcomeProps> = () => {
 
     const { loggedInAthlete: athlete } = useStravaContext();
+    const { setLayoutState } = useLayoutContext();
 
     const HeadLine = styled('div')({
         marginTop: '-75px',
@@ -23,6 +25,11 @@ const Welcome: React.FC<WelcomeProps> = () => {
         "elevation_gain",
         "moving_time"
     ]
+
+    useEffect(() => {
+        const config: LayoutState = { showSidebar: false, isFrontPage: true }
+        setLayoutState(config);
+    }, [])
 
     return (
         <section>

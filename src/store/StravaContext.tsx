@@ -39,7 +39,7 @@ type SetAthleteAction = {
 
 type SetClubActivitiesAction = {
     payload?: Partial<StravaState>,
-    type: 'SET_ACTIVITIES',
+    type: 'SET_CLUB_ACTIVITIES',
 }
 
 type SetAthleteActivitiesAction = {
@@ -91,7 +91,7 @@ function stravaReducer(state: StravaState, action: Action): StravaState {
                 isGlober: action.payload?.isGlober,
                 loggedInAthlete: {...state.loggedInAthlete, ...action.payload?.loggedInAthlete}
             }
-        case 'SET_ACTIVITIES':
+        case 'SET_CLUB_ACTIVITIES':
             return {
                 ...state,
                 clubActivities: action.payload?.clubActivities,
@@ -129,7 +129,7 @@ const StravaContextProvider = ({children}: StravaContextProviderProps) => {
             dispatch({type: 'SET_ATHLETE', payload: {loggedInAthlete: athlete, isGlober: isGlober}})
         },
         setClubActivities: (activities) => {
-            dispatch({type: 'SET_ACTIVITIES', payload: { clubActivities: activities}})
+            dispatch({type: 'SET_CLUB_ACTIVITIES', payload: { clubActivities: activities}})
         },
         setAthleteActivities: (activities) => {
             dispatch({type: 'SET_ATHLETE_ACTIVITIES', payload: { athleteActivities: activities}})

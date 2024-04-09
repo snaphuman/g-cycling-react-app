@@ -50,7 +50,8 @@ const LayoutContextProvider = ({children}: LayoutContextProviderProps) => {
         },
         updateGridData: (data) => {
             const gridApi = layoutState.activitiesGridApi;
-            if (gridApi) {
+            console.log('gridApi', gridApi)
+            if (gridApi && !gridApi?.destroyCalled) {
                 gridApi.updateGridOptions({'rowData': data});
             }
         },

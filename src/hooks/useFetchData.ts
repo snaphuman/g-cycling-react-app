@@ -7,7 +7,7 @@ import { StravaApi } from "../enums/StravaApi";
 
 const useFetchData = () => {
 
-    const { isLoggedIn, token, setAthlete, setAthleteActivities, setClubActivities } = useStravaContext();
+    const { isLoggedIn, loggedInAthlete, token, setAthlete, setActivityStats, setAthleteActivities, setClubActivities } = useStravaContext();
 
 
     useEffect(() => {
@@ -24,12 +24,14 @@ const useFetchData = () => {
                        getLoggedIntAthlete(),
                        getClubActivitiesById(),
                        getLoggedInAthleteActivities(),
+                       getStats(),
                      ]);
 
         console.log('data', data);
         setAthlete(data[0]?.data);
         setClubActivities(data[1]?.data);
         setAthleteActivities(data[2]?.data);
+        setActivityStats(data[3]?.data);
                          
     }
 
@@ -57,8 +59,13 @@ const useFetchData = () => {
         });
     }
 
-
+    const getStats = async () => {
+        return await axios.get<any>(`${StravaApi.API_URL}/athletes/${loggedInAthlete?.id}/stats`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });  
+    }
 }
-
 
 export default useFetchData;

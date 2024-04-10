@@ -1,3 +1,4 @@
+
 export enum ActivitySportType {
     AlpineSki="Alpine Ski",
     BackcountrySki="Backcountry Ski",
@@ -51,6 +52,14 @@ export enum ActivitySportType {
     Yoga="Yoga",
 }
 
+export type ActivityTotal = {
+    count: number,
+    distance: number,
+    moving_time: number,
+    elapsed_time: number,
+    elevation_gain: number,
+    achievement_count: number,
+}
 export class Athlete {
     constructor (
         public id?: string,
@@ -138,5 +147,19 @@ export class AthleteActivity {
         public pr_count: number,
         public total_photo_count: number,
         public has_kudoed: boolean,
+    ) {}
+}
+
+export class ActivityStats  {
+    constructor (
+        public all_ride_totals?: ActivityTotal,
+        public recent_ride_totals?: ActivityTotal,
+        public ytd_ride_totals?: ActivityTotal,
+        public all_run_totals?: ActivityTotal,
+        public recent_run_totals?: ActivityTotal,
+        public ytd_run_totals?: ActivityTotal,
+        public all_swim_totals?: ActivityTotal,
+        public recent_swim_totals?: ActivityTotal,
+        public ytd_swim_totals?: ActivityTotal,
     ) {}
 }

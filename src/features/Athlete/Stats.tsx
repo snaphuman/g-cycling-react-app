@@ -17,7 +17,7 @@ type StatProps = {
 const Stats: React.FC<StatsProps> = ({ types }) => {
 
     const { activityStats } = useStravaContext();
-    const [ selectedActivity, setSelectedActivity ] = useState('ride');
+    const [ selectedPeriod, setSelectedPeriod ] = useState('all');
     const [ stats, setStats ] = useState(undefined);
 
     const StatFlexList = styled('div')<StatFlexListProps>(({ direction }) => ({
@@ -42,22 +42,22 @@ const Stats: React.FC<StatsProps> = ({ types }) => {
     }));
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedActivity((event.target as HTMLInputElement).value)
+        setSelectedPeriod((event.target as HTMLInputElement).value)
     }
 
     useEffect(() => {
 
         if(activityStats){
             const selected = getSelectedActivityStats();
-            setStats(selected[`all_${selectedActivity}_totals`]);
+            console.log('selected', selected);
+            setStats(selected[`${selectedPeriod}_ride_totals`]);
         }
 
-    }, [selectedActivity])
+    }, [selectedPeriod])
 
     const getSelectedActivityStats = () => {
         return types?.reduce((stats: Object, item) => {
             const stat = activityStats as unknown as any;
-            console.log('stat', stat)
 
             return Object.assign(stats, {[item]: stat[item]})
         }, {})
@@ -72,12 +72,12 @@ const Stats: React.FC<StatsProps> = ({ types }) => {
                 <RadioGroup
                     row
                     name="selected-activity"
-                    value={selectedActivity}
+                    value={selectedPeriod}
                     onChange={handleChange}
                     >
-                    <FormControlLabel value="ride" control={<Radio />} label="Ride"></FormControlLabel>
-                    <FormControlLabel value="run" control={<Radio />} label="Run"></FormControlLabel>
-                    <FormControlLabel value="swim" control={<Radio />} label="Swim"></FormControlLabel>
+                    <FormControlLabel value="all" control={<Radio />} label="All"></FormControlLabel>
+                    <FormControlLabel value="recent" control={<Radio />} label="Recent"></FormControlLabel>
+                    <FormControlLabel value="ytd" control={<Radio />} label="Year to date"></FormControlLabel>
 
 
                 </RadioGroup>
@@ -86,10 +86,10 @@ const Stats: React.FC<StatsProps> = ({ types }) => {
             <StatFlexList direction="row">
 
             { 
-                stats ? Object.entries(stats).map(([item, value],index, arr) => (
-                <Stat key={index} label={item}>{stats[item]}</Stat>
-                )) : null
+                stats && Object.entries(stats).map(([item, _value],index, arr) => 
+                        <Stat key={index} label={item}>{arr[index].at(1) as number}</Stat>) 
             }
+
             </StatFlexList> 
         </>
     )

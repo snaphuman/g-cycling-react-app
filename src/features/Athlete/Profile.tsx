@@ -6,7 +6,7 @@ import { Typography } from "@mui/material";
 const Profile: React.FC = () => {
 
     const { setLayoutState } = useLayoutContext();
-    const { isLoggedIn, loggedInAthlete: profile } = useStravaContext();
+    const { loggedInAthlete: profile } = useStravaContext();
 
     useEffect(() => {
         setLayoutState({
@@ -23,10 +23,15 @@ const Profile: React.FC = () => {
     return (
         <>
           <Typography variant="h2" component="div" sx={{ flexGrow: 1 }}>
-              {
-                  isLoggedIn && `Kudos ${profile?.firstname} ${profile?.lastname}. `
-              }
+            Profile
           </Typography>
+          {  Object.entries(profile)
+                   .filter(([key, _value]) => key !== 'clubs')
+                   .map(([key, value], index) => 
+                        <div key={index}>
+                            {key}: {value}
+                        </div>
+          )}
         </>
     )
 }

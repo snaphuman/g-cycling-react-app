@@ -2,7 +2,7 @@ import { type ComponentPropsWithoutRef, ReactNode, MouseEvent, useState, useEffe
 import { useLayoutContext } from "../../store/LayoutContext";
 import FilterClubActivities from "../Club/ClubActivitiesFilter";
 import StravaAuthButton from '../../components/Strava/StravaAuthButton';
-import { AppBar, Avatar, Box, IconButton, Button, Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography, createTheme, SvgIcon, Container, styled } from "@mui/material";
+import { AppBar, Avatar, Box, IconButton, Button, Menu, MenuItem, ThemeProvider, Toolbar, Tooltip, Typography, createTheme, SvgIcon, Container, styled, Paper } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import { useStravaContext } from "../../store/StravaContext";
 import { useNavigate } from "react-router-dom";
@@ -57,7 +57,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <div className={ config.showSidebar ? 'grid-container sidebar-on' : 'grid-container'}>
+            <Paper className={ config.showSidebar ? 'grid-container sidebar-on' : 'grid-container'}>
                 <header className='header'>
                     <AppBar position="static">
                         <Container maxWidth="xl">
@@ -188,7 +188,7 @@ const Layout: React.FC<LayoutProps> = ({children}: LayoutProps) => {
                     </Container>
                 </section>
                 <Footer className="footer" />
-            </div>
+            </Paper>
         </ThemeProvider>
     )
 

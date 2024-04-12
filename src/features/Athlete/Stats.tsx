@@ -1,9 +1,10 @@
-import { FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, styled } from "@mui/material";
-import { ComponentPropsWithoutRef, useEffect, useState } from "react";
+import { FormControl, FormControlLabel, FormLabel, Icon, Radio, RadioGroup, ToggleButton, ToggleButtonGroup, styled } from "@mui/material";
+import React, { ComponentPropsWithoutRef, MouseEvent, useEffect, useState } from "react";
 import { useStravaContext } from "../../store/StravaContext";
+import { DirectionsBike, DirectionsRun, Pool } from "@mui/icons-material";
+import { ActivityTotal } from "../../models/StravaModels";
 
 type StatsProps = {
-    types: string[];
 } & ComponentPropsWithoutRef<'div'>;
 
 type StatFlexListProps = {
@@ -14,11 +15,16 @@ type StatProps = {
     label: string
 }
 
-const Stats: React.FC<StatsProps> = ({ types }) => {
+type Activity = 'ride' | 'run' | 'swim';
+
+type Period = 'all' | 'recent' | 'ytd';
+
+const Stats: React.FC<StatsProps> = () => {
 
     const { activityStats } = useStravaContext();
-    const [ selectedPeriod, setSelectedPeriod ] = useState('all');
-    const [ stats, setStats ] = useState(undefined);
+    const [ selectedPeriod, setSelectedPeriod ] = useState<Period>('all');
+    const [ selectedActivity, setSelectedActivity ] = useState<Activity>('ride');
+    const [ stats, setStats ] = useState<ActivityTotal | undefined>(undefined);
 
     const StatFlexList = styled('div')<StatFlexListProps>(({ direction }) => ({
         display: 'flex',
@@ -41,39 +47,57 @@ const Stats: React.FC<StatsProps> = ({ types }) => {
         }
     }));
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedPeriod((event.target as HTMLInputElement).value)
+    const handleActivityChange = (_event: React.MouseEvent<HTMLElement>, activity: string) => {
+        setSelectedActivity(activity as Activity)
+    }
+
+    const handlePeriodChange = (_event: React.ChangeEvent<HTMLInputElement>, period: string) => {
+        setSelectedPeriod(period as Period);
     }
 
     useEffect(() => {
 
         if(activityStats){
-            const selected = getSelectedActivityStats();
-            console.log('selected', selected);
-            setStats(selected[`${selectedPeriod}_ride_totals`]);
+            const selectedStats: ActivityTotal | undefined = activityStats[`${selectedPeriod}_${selectedActivity}_totals`];
+            setStats(selectedStats);
         }
 
-    }, [selectedPeriod])
-
-    const getSelectedActivityStats = () => {
-        return types?.reduce((stats: Object, item) => {
-            const stat = activityStats as unknown as any;
-
-            return Object.assign(stats, {[item]: stat[item]})
-        }, {})
-    }
+    }, [selectedPeriod, selectedActivity])
 
     return (
         <>
+            <FormControl color="primary" component='fieldset'> 
+                <FormLabel component='legend'>Activity</FormLabel>
+                <ToggleButtonGroup
+                    value={selectedActivity}
+                    exclusive
+                    onChange={handleActivityChange}
+                >
+                    <ToggleButton value='ride'>
+                        <Icon>
+                            <DirectionsBike></DirectionsBike>
+                        </Icon>
+                    </ToggleButton>
+                    <ToggleButton value='swim'>
+                        <Icon>
+                            <Pool></Pool>
+                        </Icon>
+                    </ToggleButton>
+                    <ToggleButton value='run'>
+                        <Icon>
+                            <DirectionsRun></DirectionsRun>
+                        </Icon>
+                    </ToggleButton>
+                </ToggleButtonGroup>
+            </FormControl>
+
             <FormControl>
-                <FormLabel id='activity-form'>
-                    Activity
-                </FormLabel>
+                <FormControlLabel label='Period' control={<RadioGroup/>} />
                 <RadioGroup
                     row
                     name="selected-activity"
                     value={selectedPeriod}
-                    onChange={handleChange}
+                    onChange={handlePeriodChange}
                     >
                     <FormControlLabel value="all" control={<Radio />} label="All"></FormControlLabel>
                     <FormControlLabel value="recent" control={<Radio />} label="Recent"></FormControlLabel>

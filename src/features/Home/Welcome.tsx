@@ -3,7 +3,6 @@ import { ComponentPropsWithoutRef, useEffect } from "react"
 import { useStravaContext } from "../../store/StravaContext";
 import { Stats } from "../Athlete/Index";
 import { LayoutState, useLayoutContext } from "../../store/LayoutContext";
-import { ActivityStats } from "../../models/StravaModels";
 
 type WelcomeProps = {
 
@@ -13,16 +12,6 @@ const Welcome: React.FC<WelcomeProps> = () => {
 
     const { loggedInAthlete: athlete } = useStravaContext();
     const { setLayoutState } = useLayoutContext();
-
-    const getStatsTypesByActivity = (activity: 'ride' | 'run' | 'swim'): string[] => {
-
-        return [
-                `all_${activity}_totals`,
-                `recent_${activity}_totals`,
-                `ytd_${activity}_totals`,
-               ]
-
-    }
 
     const HeadLine = styled('div')({
         marginTop: '-75px',
@@ -46,8 +35,7 @@ const Welcome: React.FC<WelcomeProps> = () => {
                         `Kudos ${athlete?.firstname} ${athlete?.lastname}.`
                     }
                 </Typography>
-                <Stats types={getStatsTypesByActivity('ride')} />
-
+                <Stats />
             </HeadLine>
         </section>
     )

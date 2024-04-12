@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, FormLabel, Icon, Radio, RadioGroup, ToggleButton, ToggleButtonGroup, styled } from "@mui/material";
+import { Box, Container, Divider, FormControl, FormControlLabel, FormLabel, Icon, Radio, RadioGroup, ToggleButton, ToggleButtonGroup, styled } from "@mui/material";
 import React, { ComponentPropsWithoutRef, MouseEvent, useEffect, useState } from "react";
 import { useStravaContext } from "../../store/StravaContext";
 import { DirectionsBike, DirectionsRun, Pool } from "@mui/icons-material";
@@ -29,12 +29,14 @@ const Stats: React.FC<StatsProps> = () => {
     const StatFlexList = styled('div')<StatFlexListProps>(({ direction }) => ({
         display: 'flex',
         flexDirection: direction,
+        maxWidth: 'xl',
     }));
 
     const Stat = styled('div')<StatProps>(({label}) => ({
         backgroundColor: 'orange',
-        width: '200px',
-        height: '200px',
+        width: '150px',
+        height: '150px',
+        margin: '20px',
         borderRadius: '100px',
         position: 'relative',
         display: 'flex',
@@ -53,6 +55,10 @@ const Stats: React.FC<StatsProps> = () => {
 
     const handlePeriodChange = (_event: React.ChangeEvent<HTMLInputElement>, period: string) => {
         setSelectedPeriod(period as Period);
+    } 
+
+    const formatNumber = (value: string) => {
+        return parseFloat(value).toFixed(2);
     }
 
     useEffect(() => {
@@ -66,7 +72,7 @@ const Stats: React.FC<StatsProps> = () => {
 
     return (
         <>
-            <FormControl color="primary" component='fieldset'> 
+            <FormControl color="primary" component='fieldset' margin='normal'> 
                 <FormLabel component='legend'>Activity</FormLabel>
                 <ToggleButtonGroup
                     value={selectedActivity}
@@ -91,8 +97,8 @@ const Stats: React.FC<StatsProps> = () => {
                 </ToggleButtonGroup>
             </FormControl>
 
-            <FormControl>
-                <FormControlLabel label='Period' control={<RadioGroup/>} />
+            <FormControl color="primary" component="fieldset" margin='normal'>
+                <FormLabel component='legend'>Period</FormLabel>
                 <RadioGroup
                     row
                     name="selected-activity"
@@ -110,8 +116,12 @@ const Stats: React.FC<StatsProps> = () => {
             <StatFlexList direction="row">
 
             { 
-                stats && Object.entries(stats).map(([item, _value],index, arr) => 
-                        <Stat key={index} label={item}>{arr[index].at(1) as number}</Stat>) 
+                stats && 
+                Object.entries(stats)
+                      .map(([item, _value],index, arr) => 
+                        <Stat key={index} label={item}>
+                            { formatNumber(arr[index].at(1) as string) }
+                        </Stat>)
             }
 
             </StatFlexList> 
